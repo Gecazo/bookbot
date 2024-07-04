@@ -1,9 +1,8 @@
 def main():
     book_contents = show_contents()
     word_count = count_words(book_contents)
-    print(f"Number of words: {word_count}")
     character_count = count_characters(book_contents)
-    print(f"Character counts: {character_count}")
+    print_report(word_count, character_count, "books/frankenstein.txt")
 
 def count_words(target):
     words = target.split()
@@ -25,6 +24,18 @@ def show_contents():
     with open(path, 'r') as f:
         return f.read()
 
+def print_report(word_count, character_count, file_path):
+    report = []
+    report.append(f"--- Begin report of {file_path} ---")
+    report.append(f"{word_count} words found in the document\n")
+    
+    sorted_characters = sorted(character_count.items(), key=lambda item: item[1], reverse=True)
+    for char, count in sorted_characters:
+        if char.isalpha():
+            report.append(f"The '{char}' character was found {count} times")
+    
+    report.append("--- End report ---")
+    print("\n".join(report))
+
 if __name__ == "__main__":
     main()
-
